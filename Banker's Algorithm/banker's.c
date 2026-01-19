@@ -1,3 +1,10 @@
+/* File : banker's.c
+Purpose : Implements the Banker's Algorithm to check if the system is in a safe state
+
+Description:
+This file contains the main Banker's Algorithm, including functions to accept input matrices, print matrices, execute the banker() function,
+and handle additional resource requests.
+*/
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -69,7 +76,7 @@ int safety(int A[][10], int N[][10], int AV[10][10], int n, int m, int a[])
 {
     int i, j, k, x = 0;
 
-    // work is initialize work and finish
+    // Work is initialize work and finish
     int F[10], W[1][10];
     int pflag = 0, flag = 0;
 
@@ -101,6 +108,6 @@ int safety(int A[][10], int N[][10], int AV[10][10], int n, int m, int a[])
                     }
                 }
 
-                // step3: if finish[i] == false and need <= work
+                // step3: If finish[i] == false and need <= work
                 if (flag == 0 && F[i] == 0)
                 {
