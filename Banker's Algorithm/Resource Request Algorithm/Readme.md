@@ -15,12 +15,12 @@ Step 2: If Requestᵢ ≤ Available, go to step 3.
         Otherwise, the process must wait.
 
 Step 3: Pretend to allocate the requested resources:
-      - Available = Available − Requestᵢ
-      - Allocationᵢ = Allocationᵢ + Requestᵢ
-      - Needᵢ = Needᵢ − Requestᵢ
+        - Available = Available − Requestᵢ
+        - Allocationᵢ = Allocationᵢ + Requestᵢ
+        - Needᵢ = Needᵢ − Requestᵢ
 
 Step 4: Run the Safety Algorithm:
-      - If resulting state is safe → grant request
-      - If unsafe → restore old state and process waits
+        - If resulting state is safe → grant request
+        - If unsafe → restore old state and process waits
 
 **Time Complexity:** O(m × n²)
