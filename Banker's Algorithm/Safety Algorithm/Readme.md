@@ -1,7 +1,14 @@
 # Safety Algorithm
+<img src="https://github.com/jayashree1100/Deadlock/blob/main/Banker's%20Algorithm/images/safe.png" alt="Safe State Diagram" align="right" width="110" height="110" style="margin-left:20px; margin-bottom:0; margin-top:0;">
 
-- The Safety Algorithm determines whether a state is safe if the system can allocate resources to each process in some order and still avoid a deadlock. 
-- A system is in a safe state only if there exists a safe sequence.
+A system is in a **safe state** if it can allocate resources to each process in some order and still avoid a deadlock. A system is in a safe state only if there exists a safe sequence.
+  - If a system is in safe state => no deadlocks
+  - If a system is in unsafe state => possibility of deadlock
+  - Avoidance => ensure that a system will never enter an unsafe state
+
+All resource requests are analyzed before allocation to ensure the system remains in a safe state.
+
+This image shows a system in safe, unsafe, and deadlocked states, clearly indicating which sequences allow processes to complete safely.
 
 
 
