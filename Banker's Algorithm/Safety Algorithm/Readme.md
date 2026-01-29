@@ -1,7 +1,7 @@
 # Safety Algorithm
 <img src="https://github.com/jayashree1100/Deadlock/blob/main/Banker's%20Algorithm/images/safe.png" alt="Safe State Diagram" align="right" width="110" height="110" style="margin-left:20px; margin-bottom:0; margin-top:0;">
 
-A system is in a **safe state** if it can allocate resources to each process in some order and still avoid a deadlock. A system is in a safe state only if there exists a safe sequence.
+A system is in a **safe state** if it can allocate resources to each process in some order and still avoid a deadlock. A system is in a safe state only if there exists a safe sequence of processes where each process can obtain all resources it may request and complete.
   - If a system is in safe state => no deadlocks
   - If a system is in unsafe state => possibility of deadlock
   - Avoidance => ensure that a system will never enter an unsafe state
