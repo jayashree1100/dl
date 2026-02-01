@@ -5,6 +5,7 @@ Description:
 This file contains the main Banker's Algorithm, including functions to accept input matrices, print matrices, execute the banker() function,
 and handle additional resource requests.
 */
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -58,15 +59,12 @@ void res_request(int A[10][10], int N[10][10], int AV[10][10], int pid, int m)
     {
         // Updated available for process requested
         AV[0][i] -= reqmat[0][i];
-        printf("available:%d\n", AV[0][i]);
 
         // Updated allocation for process requested
         A[pid][i] += reqmat[0][i];
-        printf("allocation:%d\n", A[pid][i]);
 
         // Updated need for process requested
         N[pid][i] -= reqmat[0][i];
-        printf("need:%d\n", N[pid][i]);
     }
 }
 
@@ -111,3 +109,148 @@ int safety(int A[][10], int N[][10], int AV[10][10], int n, int m, int a[])
                 // step3: If finish[i] == false and need <= work
                 if (flag == 0 && F[i] == 0)
                 {
+                    for (j = 0; j < m; j++)
+                    {
+                        // update work = work + allocation
+                        W[0][j] += A[i][j];
+                    }
+
+                    F[i] = 1; // finish[i] = true
+                    pflag++;
+                    a[x++] = i;
+                }
+            }
+        }
+
+        if (pflag == n)
+        {
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+// Banker's Algorithm
+// A - Allocation Matrix
+// N - Need Matrix
+// M - Maximum Matrix
+// W - Work Matrix
+
+void accept(int A[][10], int N[][10], int M[][10], int W[1][10], int *n, int *m)
+{
+    int i, j, z[10];
+
+    printf("\n Enter total no. of processes : ");
+    scanf("%d", n);
+
+    printf("\n Enter total no. of resources : ");
+    scanf("%d", m);
+
+    for (i = 0; i < *m; i++)
+    {
+        printf("\n Enter the instances: ");
+        scanf("%d", &z[i]);
+    }
+
+    for (i = 0; i < *n; i++)
+    {
+        printf("\n Process %d\n", i);
+
+        for (j = 0; j < *m; j++)
+        {
+            printf(" Allocation for resource %d : ", j + 1);
+            scanf("%d", &A[i][j]);
+
+            printf(" Maximum for resource %d : ", j + 1);
+            scanf("%d", &M[i][j]);
+        }
+    }
+
+    printf("\n available resources\n");
+
+    // Calculation of available resources
+    for (j = 0; j < *m; j++)
+    {
+        W[0][j] = z[j];
+        for (i = 0; i < *n; i++)
+        {
+            W[0][j] -= A[i][j];
+        }
+    }
+
+    printf("\n available resources ");
+    for (j = 0; j < *m; j++)
+    {
+        printf("%d ", W[0][j]);
+    }
+    printf("\n");
+
+    for (i = 0; i < *n; i++)
+    {
+        for (j = 0; j < *m; j++)
+        {
+            N[i][j] = M[i][j] - A[i][j];
+        }
+    }
+
+    printf("\n Allocation Matrix");
+    print(A, *n, *m);
+
+    printf("\n Maximum Requirement Matrix");
+    print(M, *n, *m);
+
+    printf("\n Need Matrix");
+    print(N, *n, *m);
+}
+
+int banker(int A[][10], int N[][10], int W[1][10], int n, int m)
+{
+    int j, i, a[10];
+
+    // Safety algorithm called
+    j = safety(A, N, W, n, m, a);
+
+    if (j != 0)
+    {
+        printf("\n\n");
+
+        for (i = 0; i < n; i++)
+        {
+            printf(" P%d ", a[i]);
+        }
+
+        printf("\n A safety sequence has been detected.\n");
+        return 1;
+    }
+}
+
+int main()
+{
+    int ret;
+    int A[10][10], M[10][10];
+    int N[10][10], W[1][10];
+    int n, m, pid, ch;
+
+    printf("\n DEADLOCK AVOIDANCE USING BANKER'S ALGORITHM\n");
+
+    accept(A, N, M, W, &n, &m);
+    ret = banker(A, N, W, n, m);
+
+    if (ret != 0)
+    {
+        printf("\n Do you want make an additional request ? (1=Yes|0=No)");
+        scanf("%d", &ch);
+
+        if (ch == 1)
+        {
+            printf("\n Enter process no. : ");
+            scanf("%d", &pid);
+
+            res_request(A, N, W, pid, m);
+            banker(A, N, W, n, m);
+        }
+    }
+
+    return 0;
+}
